@@ -9,18 +9,27 @@ export default class extends Controller {
 
   connect() {
     mapboxgl.accessToken = this.apiKeyValue;
-    console.log(this.markersValue);
+
+    console.log('Map controller connected');
+    console.log('Markers', this.markersValue);
+
     this.map = new mapboxgl.Map({
       container: this.element,
       style: 'mapbox://styles/gravem/cliw677uo014v01r1b6ko2zcf',
     });
 
-    this.#addMarkersToMap();
-    this.#fitMapToMarkers();
+    // Wait for map to load before adding markers
+    this.map.on('load', () => {
+      console.log(`Map loaded`);
+
+      this.#addMarkersToMap();
+      this.#fitMapToMarkers();
+    });
   }
 
   #addMarkersToMap() {
     this.markersValue.forEach((marker) => {
+      // check for invalid markers and skip them
       if (!marker.lng || !marker.lat) {
         console.warn('Invalid marker skipped:', marker);
         return;
@@ -37,11 +46,25 @@ export default class extends Controller {
     });
   }
 
+  // Set the map zoom and bounds based on available markers
   #fitMapToMarkers() {
+    console.log(this.markersValue);
     const bounds = new mapboxgl.LngLatBounds();
-    this.markersValue.forEach((marker) =>
-      bounds.extend([marker.lng, marker.lat])
-    );
-    this.map.fitBounds(bounds, { padding: 70, maxZoom: 15, duration: 0 });
+    console.log(`Initial map bounds`, bounds);
+
+    this.markersValue.forEach((marker) => {
+      if (marker.lng && marker.lat) {
+        console.log(`Marker coordinates:`, marker.lng, marker.lat);
+        bounds.extend([marker.lng, marker.lat]);
+      } else {
+        console.warn(`Invalid marker coordinates:`, marker);
+      }
+    });
+    if (!bounds.isEmpty()) {
+      console.log(`Final map bounds:`, bounds);
+      this.map.fitBounds(bounds, { padding: 50, maxZoom: 15, duration: 2000 });
+    } else {
+      console.warn(`Bounds are empty, cannot fit map to markers`);
+    }
   }
 }

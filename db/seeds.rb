@@ -15,44 +15,45 @@ Report.destroy_all
 User.destroy_all
 
 photo_1 = URI.open('https://sites.rutgers.edu/acal51/wp-content/uploads/sites/291/2017/12/3859882-6269102771-Bruce.jpg')
-user1 = User.new(name: 'Bruce Wayne', email: 'bruce@wayne.com', password: '123456', address: "101 Wayne Street", neighbourhood: "Hackney")
+user1 = User.new(name: 'Bruce Wayne', email: 'bruce@wayne.com', password: '123456', address: "1600 Pennsylvania Avenue NW, Washington, DC 20500", neighbourhood: "White House District")
 user1.photo.attach(io: photo_1, filename: 'bruce_avatar.jpg', content_type: 'image/jpg')
 user1.save!
 
 photo_2 = URI.open('https://flxt.tmsimg.com/assets/59797_v9_bb.jpg')
-user2 = User.new(name: 'Stacey', email: 'user1@test.com', password: '123456', address: "5 Pearson Street", neighbourhood: "Hackney")
+user2 = User.new(name: 'Stacey', email: 'user1@test.com', password: '123456', address: "10 Downing Street, London SW1A 2AA, UK", neighbourhood: "Westminster")
 user2.photo.attach(io: photo_2, filename: 'stacey_avatar.jpg', content_type: 'image/jpg')
 user2.save!
 
 photo_3 = URI.open('https://static.wikia.nocookie.net/spiderman-films/images/8/85/Mary_Jane_Watson_%28Kirsten_Dunst%29.jpg/revision/latest?cb=20210601233728')
-user3 = User.new(name: 'Mary', email: 'user2@test.com', password: '123456', address: "7 Pearson Street", neighbourhood: "Hackney")
+user3 = User.new(name: 'Mary', email: 'user2@test.com', password: '123456', address: "221B Baker Street, London NW1 6XE, UK", neighbourhood: "Marylebone")
 user3.photo.attach(io: photo_3, filename: 'mary_avatar.jpg', content_type: 'image/jpg')
 user3.save!
 
 photo_4 = URI.open('https://pyxis.nymag.com/v1/imgs/74b/2a3/6c8160504678c445e7d5da6679f4c22748-25-SarahConnor.jpg')
-user4 = User.new(name: 'Sarah Connor', email: 'user3@test.com', password: '123456', address: "2 Terminator Street", neighbourhood: "Hackney")
-user4.photo.attach(io: photo_4, filename: 'Sarah_avatar.jpg', content_type: 'image/jpg')
+user4 = User.new(name: 'Sarah Connor', email: 'user3@test.com', password: '123456', address: "101 Hollywood Boulevard, Los Angeles, CA 90028", neighbourhood: "Hollywood")
+user4.photo.attach(io: photo_4, filename: 'sarah_avatar.jpg', content_type: 'image/jpg')
 user4.save!
 
 photo_5 = URI.open('https://res.cloudinary.com/wagon/image/upload/c_fill,g_face,h_200,w_200/v1681717733/bwtoyborjeacyis1h77c.jpg')
-user5 = User.new(name: 'Sam Mayhew', email: 'Sam@gmail.com', password: '123456', address: "101 Wayne Street", neighbourhood: "Hackney")
-user5.photo.attach(io: photo_5, filename: 'Sam_avatar.jpg', content_type: 'image/jpg')
+user5 = User.new(name: 'Sam Mayhew', email: 'sam@gmail.com', password: '123456', address: "350 Fifth Avenue, New York, NY 10118", neighbourhood: "Manhattan")
+user5.photo.attach(io: photo_5, filename: 'sam_avatar.jpg', content_type: 'image/jpg')
 user5.save!
 
 photo_6 = URI.open('https://res.cloudinary.com/wagon/image/upload/c_fill,g_face,h_200,w_200/v1682027009/sncxepk6muonqejzpuyz.jpg')
-user6 = User.new(name: 'Sajethan Saku', email: 'saj@gmail.com', password: '123456', address: "5 Pearson Street", neighbourhood: "Hackney")
-user6.photo.attach(io: photo_6, filename: 'Saj_avatar.jpg', content_type: 'image/jpg')
+user6 = User.new(name: 'Sajethan Saku', email: 'saj@gmail.com', password: '123456', address: "1 Infinite Loop, Cupertino, CA 95014", neighbourhood: "Silicon Valley")
+user6.photo.attach(io: photo_6, filename: 'saj_avatar.jpg', content_type: 'image/jpg')
 user6.save!
 
 photo_7 = URI.open('https://res.cloudinary.com/wagon/image/upload/c_fill,g_face,h_200,w_200/v1681473627/vbioye43gvixu2cgolkd.jpg')
-user7 = User.new(name: 'Onos Ovueraye', email: 'onos@gmail.com', password: '123456', address: "7 Pearson Street", neighbourhood: "Hackney")
+user7 = User.new(name: 'Onos Ovueraye', email: 'onos@gmail.com', password: '123456', address: "1600 Amphitheatre Parkway, Mountain View, CA 94043", neighbourhood: "Mountain View")
 user7.photo.attach(io: photo_7, filename: 'onos_avatar.jpg', content_type: 'image/jpg')
 user7.save!
 
 photo_8 = URI.open('https://res.cloudinary.com/wagon/image/upload/c_fill,g_face,h_200,w_200/v1681458390/yxcic8ztciovogmeggii.jpg')
-user8 = User.new(name: 'Aasmund Gravem', email: 'gravem@gmail.com', password: '123456', address: "2 Terminator Street", neighbourhood: "Hackney")
+user8 = User.new(name: 'Aasmund Gravem', email: 'gravem@gmail.com', password: '123456', address: "1 The Droveway, Brighton and Hove, Hove BN3 6LF", neighbourhood: "Hove")
 user8.photo.attach(io: photo_8, filename: 'aasmund_avatar.jpg', content_type: 'image/jpg')
 user8.save!
+
 
 puts '8 test users created.'
 
