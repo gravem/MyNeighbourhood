@@ -3,21 +3,27 @@ class ReportsController < ApplicationController
   def index
 
     # @reports = Report.order(:location, )
-    #@reports = Report.all
+    # @reports = Report.all
 
+    # Fetch user coordinates
+    user_coordinates = Geocoder.coordinates(current_user.address) || [51.5074, -0.1278] # Default: London
 
-    user_coordinates = Geocoder.coordinates(current_user.address)
+    # Fetch reports near user and exclude "Done" reports and with missing lat and long
+    @reports = Report.near(user_coordinates, 500, order: 'distance')
+    @reports_active = @reports.where.not(status: "Done").where.not(latitude: nil, longitude: nil)
 
-    @reports = Report.near(user_coordinates, 8_000_000, order: 'distance')
-
-    @reports_active = @reports.where.not(status: "Done")
-    distances = []
-
-    @reports_active.each do |report|
-      distances.push(Geocoder::Calculations.distance_between(user_coordinates, [report.latitude, report.longitude]))
+    # Log reports with missing coordinates (if any)
+    @reports.where(latitude: nil, longitude: nil).each do |report|
+      logger.warn("Missing coordinates for report ID: #{report.id}")
     end
 
-    @markers = @reports_active.geocoded.map do |report|
+    # Calculate distances (if needed for the view)
+    # @distances = @reports_active.map do |report|
+    #   Geocoder::Calculations.distance_between(user_coordinates, [report.latitude, report.longitude])
+    # end
+
+    # Build markers for the map
+    @markers = @reports_active.map do |report|
       {
         lat: report.latitude,
         lng: report.longitude,
@@ -25,8 +31,10 @@ class ReportsController < ApplicationController
         marker_html: render_to_string(partial: "marker", locals: {report: report})
       }
     end
-
-
+    Rails.logger.debug "Markers: #{@markers.inspect}"
+    Rails.logger.debug "Reports near user: #{@reports.inspect}"
+    Rails.logger.debug "User coordinates: #{user_coordinates.inspect}"
+    Rails.logger.debug "Current User Address: #{current_user.address.inspect}"
   end
 
   def show
