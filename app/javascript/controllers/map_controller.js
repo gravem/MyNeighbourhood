@@ -15,13 +15,16 @@ export default class extends Controller {
 
     this.map = new mapboxgl.Map({
       container: this.element,
-      style: 'mapbox://styles/gravem/cliw677uo014v01r1b6ko2zcf',
+      style: 'mapbox://styles/mapbox/streets-v11',
+      center: [-0.1276, 51.5074],
+      zoom: 12,
+      attributionControl: false,
     });
 
     // Wait for map to load before adding markers
     this.map.on('load', () => {
       console.log(`Map loaded`);
-
+      this.map.resize();
       this.#addMarkersToMap();
       this.#fitMapToMarkers();
     });
@@ -48,23 +51,34 @@ export default class extends Controller {
 
   // Set the map zoom and bounds based on available markers
   #fitMapToMarkers() {
-    console.log(this.markersValue);
     const bounds = new mapboxgl.LngLatBounds();
-    console.log(`Initial map bounds`, bounds);
 
-    this.markersValue.forEach((marker) => {
-      if (marker.lng && marker.lat) {
-        console.log(`Marker coordinates:`, marker.lng, marker.lat);
-        bounds.extend([marker.lng, marker.lat]);
-      } else {
-        console.warn(`Invalid marker coordinates:`, marker);
-      }
-    });
-    if (!bounds.isEmpty()) {
-      console.log(`Final map bounds:`, bounds);
-      this.map.fitBounds(bounds, { padding: 50, maxZoom: 15, duration: 2000 });
+    if (this.markersValue.length === 1) {
+      const marker = this.markersValue[0];
+      console.log('Single marker:', marker.lng, marker.lat);
+
+      this.map.setCenter([marker.lng, marker.lat]);
+      this.map.setZoom(14);
     } else {
-      console.warn(`Bounds are empty, cannot fit map to markers`);
+      this.markersValue.forEach((marker) => {
+        if (marker.lng && marker.lat) {
+          console.log(`Marker coordinates:`, marker.lng, marker.lat);
+          bounds.extend([marker.lng, marker.lat]);
+        } else {
+          console.warn(`Invalid marker coordinates:`, marker);
+        }
+      });
+
+      if (!bounds.isEmpty()) {
+        console.log(`Final map bounds:`, bounds);
+        this.map.fitBounds(bounds, {
+          padding: 100,
+          maxZoom: 15,
+          duration: 2000,
+        });
+      } else {
+        console.warn(`Bounds are empty, cannot fit map to markers`);
+      }
     }
   }
 }
