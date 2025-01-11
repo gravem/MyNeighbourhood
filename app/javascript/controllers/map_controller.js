@@ -72,7 +72,7 @@ export default class extends Controller {
       if (!bounds.isEmpty()) {
         console.log(`Final map bounds:`, bounds);
         this.map.fitBounds(bounds, {
-          padding: 100,
+          padding: { top: 70, bottom: 220, left: 70, right: 70 },
           maxZoom: 15,
           duration: 2000,
         });
